@@ -4,8 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.studia.Kacper.myCinema.dao.CommentDao;
+import pl.studia.Kacper.myCinema.dao.FilmDao;
+import pl.studia.Kacper.myCinema.dao.UserDao;
 import pl.studia.Kacper.myCinema.entities.CommentEntity;
-import pl.studia.Kacper.myCinema.entities.WatchLaterEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,12 +15,14 @@ import java.util.Optional;
 @Repository
 public class CommentRepository {
     private final CommentDao repository;
+    private final FilmDao filmDao;
+    private final UserDao userDao;
 
     @Transactional
     public String createComment(String text, double rate, int filmId, int userId){
         CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setFilmId(filmId);
-        commentEntity.setUserId(userId);
+        commentEntity.setFilm(filmDao.getOne(filmId));
+        commentEntity.setUser(userDao.getOne(userId));
         commentEntity.setText(text);
         commentEntity.setRate(rate);
         repository.save(commentEntity);

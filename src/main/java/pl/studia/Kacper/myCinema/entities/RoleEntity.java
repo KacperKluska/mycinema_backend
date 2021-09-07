@@ -2,9 +2,14 @@ package pl.studia.Kacper.myCinema.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.studia.Kacper.myCinema.configuration.Role;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Getter
@@ -18,6 +23,6 @@ public class RoleEntity {
     private int id;
 
     @Basic
-    @Column(name = "role")
+    @Column(name = "role", unique = true)
     private String role;
 }

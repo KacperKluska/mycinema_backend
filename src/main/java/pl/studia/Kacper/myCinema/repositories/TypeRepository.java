@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.studia.Kacper.myCinema.dao.TypeDao;
 import pl.studia.Kacper.myCinema.entities.TypeEntity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,5 +25,10 @@ public class TypeRepository {
             return null;
         }
         return typeEntities;
+    }
+
+    @Transactional
+    public TypeEntity getById(Integer id) {
+        return repository.getOne(id);
     }
 }

@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.studia.Kacper.myCinema.entities.UserTableEntity;
+import pl.studia.Kacper.myCinema.entities.UserEntity;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -20,7 +20,7 @@ public class MyUserDetails implements UserDetails {
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public MyUserDetails(UserTableEntity user){
+    public MyUserDetails(UserEntity user){
         this.id = user.getId();
         this.username = user.getLogin();
         this.email = user.getEmail();
