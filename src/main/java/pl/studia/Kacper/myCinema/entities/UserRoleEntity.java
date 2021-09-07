@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "user_role", schema = "public", catalog = "FilmsForYou")
+@Table(name = "user_role")
 public class UserRoleEntity {
 
     @Id

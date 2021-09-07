@@ -10,7 +10,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name = "user_table", schema = "public", catalog = "FilmsForYou")
+@Table(name = "user_table")
 public class UserTableEntity {
 
     @Id

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
-@Table(name = "watch_later", schema = "public", catalog = "FilmsForYou")
+@Table(name = "watch_later")
 public class WatchLaterEntity {
 
     @Id

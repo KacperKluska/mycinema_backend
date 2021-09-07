@@ -10,7 +10,7 @@ import java.sql.Time;
 @Entity
 @Getter
 @Setter
-@Table(name = "film", schema = "public", catalog = "FilmsForYou")
+@Table(name = "film")
 public class FilmEntity {
 
     @Id
