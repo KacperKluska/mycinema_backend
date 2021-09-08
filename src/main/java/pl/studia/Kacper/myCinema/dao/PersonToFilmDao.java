@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface PersonToFilmDao extends JpaRepository<PersonToFilmEntity, Integer> {
     List<PersonToFilmEntity> findByPersonId(int personId);
+
     List<PersonToFilmEntity> findByFilmId(int filmId);
 }

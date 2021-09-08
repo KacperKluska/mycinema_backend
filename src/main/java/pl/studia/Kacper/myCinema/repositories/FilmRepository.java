@@ -5,10 +5,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import pl.studia.Kacper.myCinema.requestBodies.FilmBody;
-import pl.studia.Kacper.myCinema.requestBodies.MovieAnswerBody;
 import pl.studia.Kacper.myCinema.dao.FilmDao;
 import pl.studia.Kacper.myCinema.entities.FilmEntity;
+import pl.studia.Kacper.myCinema.requestBodies.FilmBody;
+import pl.studia.Kacper.myCinema.requestBodies.MovieAnswerBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +17,10 @@ import java.util.Optional;
 @Repository
 public class FilmRepository {
     private final FilmDao repository;
+    private final TypeRepository typeRepository;
 
     @Transactional
-    public FilmEntity getFilm(int id){
+    public FilmEntity getFilm(int id) {
 
         Optional<FilmEntity> filmEntity = repository.findById(id);
         return filmEntity.orElse(null);
@@ -27,11 +28,11 @@ public class FilmRepository {
 
     //TODO query is case sensitive
     @Transactional
-    public MovieAnswerBody getAllFilms(int page, String query){
+    public MovieAnswerBody getAllFilms(int page, String query) {
         int totalMovies = repository.findByTitleContainingIgnoreCase(query).size();
         List<FilmEntity> paginated;
         Pageable pageItems;
-        if (query.equals("")){
+        if (query.equals("")) {
             pageItems = PageRequest.of(page, 4);
         } else {
             pageItems = PageRequest.of(0, 4);
@@ -42,18 +43,18 @@ public class FilmRepository {
     }
 
     @Transactional
-    public List<FilmEntity> getFilmByTitle(String title){
+    public List<FilmEntity> getFilmByTitle(String title) {
         List<FilmEntity> filmEntities = repository.findByTitle(title);
-        if (filmEntities.size() == 0){
+        if (filmEntities.size() == 0) {
             return null;
         }
         return filmEntities;
     }
 
     @Transactional
-    public String createFilm(FilmBody newFilm){
+    public String createFilm(FilmBody newFilm) {
         FilmEntity filmEntity = new FilmEntity();
-        filmEntity.setType(newFilm.getTypeId());
+        filmEntity.setType(typeRepository.getById(newFilm.getTypeId()));
         filmEntity.setTitle(newFilm.getTitle());
         filmEntity.setLength(newFilm.getLength());
         filmEntity.setPegi(newFilm.getPEGI());
@@ -68,9 +69,9 @@ public class FilmRepository {
 
     //TODO do poprawy
     @Transactional
-    public boolean deleteFilm(int id){
+    public boolean deleteFilm(int id) {
         Optional<FilmEntity> filmEntity = repository.findById(id);
-        if (!filmEntity.isPresent()){
+        if (!filmEntity.isPresent()) {
             return false;
         }
         repository.delete(filmEntity.get());

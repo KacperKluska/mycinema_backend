@@ -1,6 +1,5 @@
 package pl.studia.Kacper.myCinema.repositories;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,12 +14,12 @@ public class UserRoleRepository {
     private final UserRoleDao repository;
 
     @Transactional
-    public List<UserRoleEntity> getAllRoles(){
+    public List<UserRoleEntity> getAllRoles() {
         return repository.findAll();
     }
 
     @Transactional
-    public UserRoleEntity getRoleById(int id){
+    public UserRoleEntity getRoleById(int id) {
         return repository.findAllById(id);
     }
 }

@@ -4,12 +4,19 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.studia.Kacper.myCinema.configuration.Role;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "user_role", schema = "public", catalog = "FilmsForYou")
+@Table(name = "user_role")
 public class UserRoleEntity {
 
     @Id
@@ -17,7 +24,6 @@ public class UserRoleEntity {
     @Column(name = "id")
     private int id;
 
-    @Basic
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;

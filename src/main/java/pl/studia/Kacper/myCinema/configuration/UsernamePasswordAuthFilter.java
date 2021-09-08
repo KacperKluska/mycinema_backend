@@ -1,59 +1,54 @@
 package pl.studia.Kacper.myCinema.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.apachecommons.CommonsLog;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.studia.Kacper.myCinema.requestBodies.LoginBody;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@CommonsLog
 public class UsernamePasswordAuthFilter extends UsernamePasswordAuthenticationFilter {
-    private final AuthenticationManager authManager;
 
-    public UsernamePasswordAuthFilter(AuthenticationManager authManager) {
-        super();
-        this.authManager = authManager;
+    public UsernamePasswordAuthFilter(AuthenticationManager authenticationManager) {
+        setFilterProcessesUrl("/login");
+        setAuthenticationManager(authenticationManager);
+        setAuthenticationSuccessHandler(((request, response, auth) -> {
+            log.info("Login success");
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+        }));
+        setAuthenticationFailureHandler((request, response, exception) -> {
+            log.info(String.format("Login failure: %s", exception.getMessage()));
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage());
+        });
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response) throws AuthenticationException {
-
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        if (!HttpMethod.POST.name().equals(request.getMethod())) {
+            throw new AuthenticationServiceException(
+                    String.format("Authentication method not supported: %s", request.getMethod())
+            );
+        }
+        UsernamePasswordAuthenticationToken authRequest;
         try {
-            // Get username & password from request (JSON) any way you like
-            LoginBody authRequest = new ObjectMapper()
-                    .readValue(request.getInputStream(), LoginBody.class);
-
-            Authentication auth = new UsernamePasswordAuthenticationToken(authRequest.getLogin(),
-                    authRequest.getPassword());
-
-            return authManager.authenticate(auth);
-        } catch (Exception exp) {
-            throw new RuntimeException(exp);
+            ObjectMapper objectMapper = new ObjectMapper();
+            LoginBody credentials = objectMapper.readValue(request.getReader(), LoginBody.class);
+            authRequest = new UsernamePasswordAuthenticationToken(
+                    credentials.getLogin().trim(),
+                    credentials.getPassword()
+            );
+        } catch (NullPointerException | IOException ex) {
+            authRequest = new UsernamePasswordAuthenticationToken("", "");
         }
-    }
-
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request,
-                                            HttpServletResponse response, FilterChain chain, Authentication authResult)
-            throws IOException, ServletException {
-
-        if (logger.isDebugEnabled()) {
-            logger.debug("Authentication success. Updating SecurityContextHolder to contain: "
-                    + authResult);
-        }
-
-        // custom code
-
-        SecurityContextHolder.getContext().setAuthentication(authResult);
-        chain.doFilter(request, response);
+        setDetails(request, authRequest);
+        return getAuthenticationManager().authenticate(authRequest);
     }
 }

@@ -3,13 +3,20 @@ package pl.studia.Kacper.myCinema.entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.sql.Date;
 
 @Entity
 @Getter
 @Setter
-@Table(name = "person", schema = "public", catalog = "FilmsForYou")
+@Table(name = "person")
 public class PersonEntity {
 
     @Id
@@ -17,35 +24,28 @@ public class PersonEntity {
     @Column(name = "id")
     private int id;
 
-    @Basic
     @Column(name = "name")
     private String name;
 
-    @Basic
     @Column(name = "surname")
     private String surname;
 
-    @Basic
     @Column(name = "age")
     private int age;
 
-    @Basic
     @Column(name = "height")
     private int height;
 
-    @Basic
     @Column(name = "born")
     private Date born;
 
-    @Basic
     @Column(name = "death")
     private Date death;
 
-    @Basic
     @Column(name = "img")
     private String img;
 
-    @Basic
-    @Column(name = "role_id")
-    private int roleId;
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    private RoleEntity role;
 }
