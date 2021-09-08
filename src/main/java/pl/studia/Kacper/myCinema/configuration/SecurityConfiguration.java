@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.studia.Kacper.myCinema.requestBodies.StringBody;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,10 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().disable()
-                .addFilterBefore(
-                        new UsernamePasswordAuthFilter(authenticationManager()),
-                        UsernamePasswordAuthenticationFilter.class
-                )
+                .addFilter(new UsernamePasswordAuthFilter(authenticationManager()))
                 .authorizeRequests(request -> request
                         .antMatchers("/login").permitAll()
                         .antMatchers("/addUser").permitAll()
