@@ -9,7 +9,7 @@ import pl.studia.Kacper.myCinema.dao.UserDao;
 
 @Service
 @RequiredArgsConstructor
-public class UserTableDetailsService implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService {
 
     private final UserDao repository;
 

@@ -35,9 +35,11 @@ public class UserEntity {
     private String password;
 
     @ManyToMany
-    @JoinTable(name = "user_to_user_role",
+    @JoinTable(
+            name = "user_to_user_role",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_role_id"))
+            inverseJoinColumns = @JoinColumn(name = "user_role_id")
+    )
     private Set<UserRoleEntity> role;
 
 }

@@ -45,7 +45,7 @@ public class UsernamePasswordAuthFilter extends UsernamePasswordAuthenticationFi
                     credentials.getLogin().trim(),
                     credentials.getPassword()
             );
-        } catch (NullPointerException | IOException ignored) {
+        } catch (NullPointerException | IOException ex) {
             authRequest = new UsernamePasswordAuthenticationToken("", "");
         }
         setDetails(request, authRequest);
