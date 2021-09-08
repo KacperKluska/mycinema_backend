@@ -22,7 +22,7 @@ public class UsernamePasswordAuthFilter extends UsernamePasswordAuthenticationFi
         setAuthenticationManager(authenticationManager);
         setAuthenticationSuccessHandler(((request, response, auth) -> {
             log.info("Login success");
-            response.setStatus(HttpServletResponse.SC_OK);
+            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }));
         setAuthenticationFailureHandler((request, response, exception) -> {
             log.info(String.format("Login failure: %s", exception.getMessage()));
