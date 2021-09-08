@@ -30,17 +30,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors().disable()
-                .addFilter(new UsernamePasswordAuthFilter(authenticationManager()))
                 .authorizeRequests(request -> request
                         .antMatchers("/login").permitAll()
                         .antMatchers("/addUser").permitAll()
                         .antMatchers("/getUsers").permitAll()
                         .anyRequest().authenticated()
                 )
+                .addFilter(new UsernamePasswordAuthFilter(authenticationManager()))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .invalidateHttpSession(true)
+                        .clearAuthentication(true)
                         .logoutSuccessHandler(((request, response, auth) -> {
                             ObjectMapper objectMapper = new ObjectMapper();
                             String json = objectMapper.writeValueAsString(new StringBody("testowy string"));
@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint((request, response, exception) ->
                                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, exception.getMessage()))
-                );
+                ).csrf().disable();
     }
 
     @Bean
