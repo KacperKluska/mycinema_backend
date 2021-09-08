@@ -20,7 +20,7 @@ public class FilmRepository {
     private final TypeRepository typeRepository;
 
     @Transactional
-    public FilmEntity getFilm(int id){
+    public FilmEntity getFilm(int id) {
 
         Optional<FilmEntity> filmEntity = repository.findById(id);
         return filmEntity.orElse(null);
@@ -28,11 +28,11 @@ public class FilmRepository {
 
     //TODO query is case sensitive
     @Transactional
-    public MovieAnswerBody getAllFilms(int page, String query){
+    public MovieAnswerBody getAllFilms(int page, String query) {
         int totalMovies = repository.findByTitleContainingIgnoreCase(query).size();
         List<FilmEntity> paginated;
         Pageable pageItems;
-        if (query.equals("")){
+        if (query.equals("")) {
             pageItems = PageRequest.of(page, 4);
         } else {
             pageItems = PageRequest.of(0, 4);
@@ -43,16 +43,16 @@ public class FilmRepository {
     }
 
     @Transactional
-    public List<FilmEntity> getFilmByTitle(String title){
+    public List<FilmEntity> getFilmByTitle(String title) {
         List<FilmEntity> filmEntities = repository.findByTitle(title);
-        if (filmEntities.size() == 0){
+        if (filmEntities.size() == 0) {
             return null;
         }
         return filmEntities;
     }
 
     @Transactional
-    public String createFilm(FilmBody newFilm){
+    public String createFilm(FilmBody newFilm) {
         FilmEntity filmEntity = new FilmEntity();
         filmEntity.setType(typeRepository.getById(newFilm.getTypeId()));
         filmEntity.setTitle(newFilm.getTitle());
@@ -69,9 +69,9 @@ public class FilmRepository {
 
     //TODO do poprawy
     @Transactional
-    public boolean deleteFilm(int id){
+    public boolean deleteFilm(int id) {
         Optional<FilmEntity> filmEntity = repository.findById(id);
-        if (!filmEntity.isPresent()){
+        if (!filmEntity.isPresent()) {
             return false;
         }
         repository.delete(filmEntity.get());

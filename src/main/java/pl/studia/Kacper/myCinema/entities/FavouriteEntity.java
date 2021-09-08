@@ -25,10 +25,10 @@ public class FavouriteEntity {
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="film_id")
+    @JoinColumn(name = "film_id")
     private FilmEntity film;
 }

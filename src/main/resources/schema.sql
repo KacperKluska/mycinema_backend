@@ -42,8 +42,8 @@ CREATE TABLE user_role
 
 CREATE TABLE user_to_user_role
 (
-    user_id INTEGER NOT NULL,
-    user_role_id   INTEGER NOT NULL,
+    user_id      INTEGER NOT NULL,
+    user_role_id INTEGER NOT NULL,
     CONSTRAINT pk_user_to_user_role PRIMARY KEY (user_id, user_role_id)
 );
 

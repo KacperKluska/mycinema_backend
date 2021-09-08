@@ -19,7 +19,7 @@ public class WatchLaterRepository {
 
     //TODO jeden film mozna dodać 2 razy a to jest błąd
     @Transactional
-    public String createWatchLaterFilmForUser(int filmId, int userId){
+    public String createWatchLaterFilmForUser(int filmId, int userId) {
         WatchLaterEntity watchLaterEntity = new WatchLaterEntity();
         watchLaterEntity.setFilm(filmDao.getOne(filmId));
         watchLaterEntity.setUser(userDao.getOne(userId));
@@ -28,24 +28,24 @@ public class WatchLaterRepository {
     }
 
     @Transactional
-    public boolean deleteWatchLaterFilmForUser(int filmId, int userId){
+    public boolean deleteWatchLaterFilmForUser(int filmId, int userId) {
         List<WatchLaterEntity> watchLaterList = repozytorium.findAllByUserId(userId);
-        if (watchLaterList.size() == 0){
+        if (watchLaterList.size() == 0) {
             return false;
         }
         watchLaterList.forEach(watchLaterEntity -> {
-           if (watchLaterEntity.getFilm().getId() == filmId){
-               repozytorium.delete(watchLaterEntity);
-           }
+            if (watchLaterEntity.getFilm().getId() == filmId) {
+                repozytorium.delete(watchLaterEntity);
+            }
         });
 
         return true;
     }
 
     @Transactional
-    public List<WatchLaterEntity> getWatchLaterFilmsByUserId(int userId){
+    public List<WatchLaterEntity> getWatchLaterFilmsByUserId(int userId) {
         List<WatchLaterEntity> watchLaterEntities = repozytorium.findAllByUserId(userId);
-        if (watchLaterEntities.size() == 0){
+        if (watchLaterEntities.size() == 0) {
             return null;
         }
         return watchLaterEntities;

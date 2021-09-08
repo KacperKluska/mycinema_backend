@@ -12,7 +12,7 @@ public class PersonRepository {
     private final PersonDao repository;
 
     @Transactional
-    public PersonEntity getPerson(int id){
+    public PersonEntity getPerson(int id) {
         return repository.findById(id).orElse(null);
     }
 }

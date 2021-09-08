@@ -20,12 +20,15 @@ public class MyUserDetails implements UserDetails {
     private String email;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public MyUserDetails(UserEntity user){
+    public MyUserDetails(UserEntity user) {
         this.id = user.getId();
         this.username = user.getLogin();
         this.email = user.getEmail();
         this.password = user.getPassword();
-        authorities = user.getRole().stream().map(e -> new SimpleGrantedAuthority(e.getRole().name())).collect(Collectors.toSet());
+        authorities = user.getRole()
+                .stream()
+                .map(e -> new SimpleGrantedAuthority(e.getRole().name()))
+                .collect(Collectors.toSet());
     }
 
     @Override

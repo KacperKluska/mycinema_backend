@@ -14,14 +14,14 @@ public class RoleRepository {
     private final RoleDao repozytorium;
 
     @Transactional
-    public void createRole(String role){
+    public void createRole(String role) {
         RoleEntity roleEntity = new RoleEntity();
         roleEntity.setRole(role);
         repozytorium.save(roleEntity);
     }
 
     @Transactional
-    public String getRole(int id){
+    public String getRole(int id) {
         Optional<RoleEntity> roleEntity = repozytorium.findById(id);
         return roleEntity.map(RoleEntity::getRole).orElse(null);
     }

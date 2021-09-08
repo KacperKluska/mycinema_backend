@@ -9,8 +9,12 @@ import java.util.Optional;
 
 public interface UserDao extends JpaRepository<UserEntity, Integer> {
     List<UserEntity> findAllByRole_Role(Role role);
+
     Optional<UserEntity> findByLogin(String login);
+
     Optional<UserEntity> findByEmail(String email);
+
     Optional<UserEntity> findByPassword(String password);
+
     Optional<UserEntity> findByLoginAndPassword(String login, String password);
 }

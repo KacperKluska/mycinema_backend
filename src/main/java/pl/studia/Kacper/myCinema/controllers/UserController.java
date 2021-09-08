@@ -1,6 +1,5 @@
 package pl.studia.Kacper.myCinema.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import pl.studia.Kacper.myCinema.configuration.Role;
 import pl.studia.Kacper.myCinema.dao.UserDao;
 import pl.studia.Kacper.myCinema.entities.UserEntity;
 import pl.studia.Kacper.myCinema.repositories.UserRepository;
@@ -29,8 +27,8 @@ public class UserController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/getUsers")
-    public List<UserEntity> getAllUsers() throws JsonProcessingException {
-        return userDao.findAllByRole_Role(Role.ROLE_USER);
+    public List<UserEntity> getAllUsers() {
+        return userDao.findAll();
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

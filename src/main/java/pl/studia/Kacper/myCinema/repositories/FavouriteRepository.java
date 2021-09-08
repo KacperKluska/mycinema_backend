@@ -18,7 +18,7 @@ public class FavouriteRepository {
     private final UserDao userDao;
 
     @Transactional
-    public String createFavouriteFilmForUser(int filmId, int userId){
+    public String createFavouriteFilmForUser(int filmId, int userId) {
         FavouriteEntity favouriteEntity = new FavouriteEntity();
         favouriteEntity.setFilm(filmDao.getOne(filmId));
         favouriteEntity.setUser(userDao.getOne(userId));
@@ -27,13 +27,13 @@ public class FavouriteRepository {
     }
 
     @Transactional
-    public boolean deleteFavouriteFilmForUser(int filmId, int userId){
+    public boolean deleteFavouriteFilmForUser(int filmId, int userId) {
         List<FavouriteEntity> favouriteEntity = repository.findAllByUserId(userId);
-        if (favouriteEntity.size() == 0){
+        if (favouriteEntity.size() == 0) {
             return false;
         }
         favouriteEntity.forEach(watchLaterEntity -> {
-            if (watchLaterEntity.getFilm().getId() == filmId){
+            if (watchLaterEntity.getFilm().getId() == filmId) {
                 repository.delete(watchLaterEntity);
             }
         });
@@ -42,9 +42,9 @@ public class FavouriteRepository {
     }
 
     @Transactional
-    public List<FavouriteEntity> getFavouriteFilmsByUserId(int userId){
+    public List<FavouriteEntity> getFavouriteFilmsByUserId(int userId) {
         List<FavouriteEntity> favouriteEntities = repository.findAllByUserId(userId);
-        if (favouriteEntities.size() == 0){
+        if (favouriteEntities.size() == 0) {
             return null;
         }
         return favouriteEntities;

@@ -3,8 +3,8 @@ package pl.studia.Kacper.myCinema.requestBodies;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Time;
 import java.sql.Date;
+import java.sql.Time;
 
 @Getter
 @Setter
